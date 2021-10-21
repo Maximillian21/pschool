@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Week1</string>
+    <string name="static_text">This is static text</string>
+    <string name="chosen_text">chosenText</string>
+    <string name="choose">Choose</string>
+    <string name="share">Share</string>
+    <string name="first_field">First field</string>
+    <string name="hello_world">Hello world (2)</string>
+    <string name="npe_kotlin">NullPointerException, but it`s Kotlin</string>
+    <string name="fourth_field">Fourth field</string>
+    <string name="last_text_view">Last text view</string>
+    <string name="test_text">Test text (5)</string>
+</resources>

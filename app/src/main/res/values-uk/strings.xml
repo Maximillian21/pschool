@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Тиждень1</string>
+    <string name="static_text">Це статичний текст</string>
+    <string name="chosen_text">Обраний текст</string>
+    <string name="choose">Обрати</string>
+    <string name="share">Поділитись</string>
+    <string name="first_field">Перше поле</string>
+    <string name="hello_world">Привіт, світ!(2)</string>
+    <string name="npe_kotlin">NullPointerException, але це Котлін</string>
+    <string name="fourth_field">Четверте поле</string>
+    <string name="last_text_view">Останній текстовий view</string>
+    <string name="test_text">Тестовий текст українською (5)</string>
+</resources>
