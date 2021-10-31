@@ -1,4 +1,4 @@
-package com.example.photosearch
+package com.example.week1
 
 import org.junit.Test
 

@@ -4,69 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ChooseTextActivity">
 
     <TextView
-        android:id="@+id/received_tv"
+        android:id="@+id/first_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:textSize="15sp"
+        android:layout_margin="30dp"
+        android:text="@string/first_field"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="invisible"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/static_tv"
+        android:id="@+id/second_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/static_text"
-        android:textSize="15sp"
-
-        android:layout_margin="10dp"
+        android:layout_margin="30dp"
+        android:text="@string/hello_world"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/received_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/first_tv" />
 
     <TextView
-        android:id="@+id/chosen_tv"
+        android:id="@+id/third_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/chosen_text"
-        android:textSize="15sp"
-        android:layout_margin="10dp"
+        android:layout_margin="30dp"
+        android:text="@string/npe_kotlin"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/static_tv" />
-
-    <Button
-        android:id="@+id/choose_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choose"
-        android:layout_margin="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chosen_tv" />
+        app:layout_constraintTop_toBottomOf="@+id/second_tv" />
 
     <TextView
-        android:id="@+id/entry_count_tv"
+        android:id="@+id/fourth_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:layout_margin="10dp"
+        android:layout_margin="30dp"
+        android:text="@string/fourth_field"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/choose_button" />
+        app:layout_constraintTop_toBottomOf="@+id/third_tv" />
 
-    <Button
-        android:id="@+id/share_button"
+    <TextView
+        android:id="@+id/fifth_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/share"
-        android:layout_margin="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_margin="30dp"
+        android:text="@string/test_text"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fourth_tv" />
+
+    <TextView
+        android:id="@+id/sixth_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="@string/last_text_view"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fifth_tv" />
 </androidx.constraintlayout.widget.ConstraintLayout>
