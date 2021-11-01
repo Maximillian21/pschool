@@ -22,11 +22,11 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.ProgressBar
+import androidx.lifecycle.lifecycleScope
 import com.example.photosearch.viewmodels.MainViewModel
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
-    private val DOMAIN_NAME = "www.flickr.com/photos/"
-
     private val viewModel: MainViewModel by viewModels()
     private lateinit var linksTextView: TextView
     private lateinit var searchField: EditText
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.refresh(searchField.text.toString())
         }
 
-        observeViewModel()
+        observeViewModel(savedInstanceState)
     }
 
     private fun setViews() {
@@ -53,11 +53,17 @@ class MainActivity : AppCompatActivity() {
         loadingView = findViewById(R.id.loadingView)
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(bundle: Bundle?) {
         viewModel.photosLinks.observe(this, { results ->
             results?.let {
                 linksTextView.visibility = View.VISIBLE
-                linksTextView.text = createLinksString(it.photos.photo)
+                GlobalScope.launch(Dispatchers.IO) {
+                    val value = viewModel.createLinksString(it.photos.photo, applicationContext, bundle)
+                    withContext(Dispatchers.Main) {
+                        linksTextView.text = value
+                    }
+                }
+                Log.d("resultsView", linksTextView.text.toString())
                 Linkify.addLinks(linksTextView, Linkify.WEB_URLS)
             }
         })
@@ -70,26 +76,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-    }
-
-    private fun createLinksString(linksList: List<Photo>): Spannable {
-        val resultSpannableText = SpannableStringBuilder()
-        var index: Int
-        for (element in linksList) {
-            val totalString = DOMAIN_NAME + element.owner + "/" + element.id + "\n"
-            resultSpannableText.append(totalString)
-            index = resultSpannableText.indexOf(totalString)
-            val clickableSpan: ClickableSpan = object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    val intent = Intent(applicationContext, WebViewActivity::class.java)
-                    intent.putExtra("url", Uri.parse(totalString).toString())
-                    startActivity(intent)
-                }
-            }
-            resultSpannableText.setSpan(clickableSpan, index,index + totalString.length,
-                SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
-        }
-        return resultSpannableText
     }
 }
 

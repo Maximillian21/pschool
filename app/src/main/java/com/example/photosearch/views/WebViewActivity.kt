@@ -8,7 +8,6 @@ import android.webkit.WebViewClient
 import com.example.photosearch.R
 
 class WebViewActivity : AppCompatActivity() {
-    private val TRANSFER_PROTOCOL = "https://"
     private lateinit var webView: WebView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +30,6 @@ class WebViewActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val url = intent.getStringExtra("url")
-        webView.loadUrl(TRANSFER_PROTOCOL + url.toString())
+        webView.loadUrl(url.toString())
     }
 }

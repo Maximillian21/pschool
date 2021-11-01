@@ -9,7 +9,7 @@ const val API_KEY = "b07f3fcd2a168aa20e4f02a526e98499"
 
 interface FlickrApiService {
 
-    @GET("?method=flickr.photos.search&api_key=b07f3fcd2a168aa20e4f02a526e98499&format=json&nojsoncallback=1")
+    @GET("services/rest/?method=flickr.photos.search&api_key=$API_KEY&format=json&nojsoncallback=1")
     suspend fun getSearchResult(
         @Query("text") text: String,
     ): Response<ApiResponse>

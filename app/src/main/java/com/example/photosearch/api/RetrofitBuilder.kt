@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitBuilder {
-    private const val BASE_URL = "https://www.flickr.com/services/rest/"
+    const val BASE_URL = "https://www.flickr.com/"
 
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
