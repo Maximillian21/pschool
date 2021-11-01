@@ -40,13 +40,11 @@ class MainViewModel : ViewModel() {
                 index = resultSpannableText.indexOf(totalString)
                 val clickableSpan: ClickableSpan = object : ClickableSpan() {
                     override fun onClick(widget: View) {
-                        Log.d("tag", "kekw")
                         val intent = Intent(context, WebViewActivity::class.java)
                         intent.putExtra("url", Uri.parse(totalString).toString())
                         startActivity(context, intent, bundle)
                     }
                 }
-                Log.d("span", resultSpannableText.toString())
                 resultSpannableText.setSpan(
                     clickableSpan, index, index + totalString.length,
                     SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -63,10 +61,10 @@ class MainViewModel : ViewModel() {
                 if(response.isSuccessful) {
                     photosLinks.postValue(response.body())
                     loading.value = false
-                    Log.d("result", "success")
+                    Log.d("MainViewModel", "success")
                 }
                 else {
-                    Log.d("error", response.message())
+                    Log.d("MainViewModel", response.message())
                     loading.value = false
                 }
             }

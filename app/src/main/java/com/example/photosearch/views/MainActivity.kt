@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                         linksTextView.text = value
                     }
                 }
-                Log.d("resultsView", linksTextView.text.toString())
                 Linkify.addLinks(linksTextView, Linkify.WEB_URLS)
             }
         })
