@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">PhotoSearch</string>
     <string name="find">Find</string>
+    <string name="saved">Saved</string>
+    <string name="favorites">Favorites</string>
+    <string name="save_favourites">Save to favourites</string>
+    <string name="remove_favourites">Remove from favourites</string>
+    <string name="password">Password</string>
+    <string name="email_login">Email/login</string>
+    <string name="sign_in_register">Sign in/register</string>
 </resources>
