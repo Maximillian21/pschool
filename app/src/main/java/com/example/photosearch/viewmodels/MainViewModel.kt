@@ -31,6 +31,10 @@ class MainViewModel @Inject constructor(
         fetchLinks(text)
     }
 
+    fun loadNextPage(text: String, page: Int) {
+        fetchNewPage(text, page)
+    }
+
     private fun fetchLinks(text: String) {
         loading.value = true
         job = CoroutineScope(Dispatchers.IO).launch {
@@ -44,6 +48,21 @@ class MainViewModel @Inject constructor(
                 else {
                     Log.d("MainViewModel", response.message())
                     loading.value = false
+                }
+            }
+        }
+    }
+
+    private fun fetchNewPage(text: String, page: Int) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            val response = repository.getNewPage(text, page)
+            withContext(Dispatchers.Main) {
+                if(response.isSuccessful) {
+                    photosLinks.postValue(response.body())
+                    Log.d("MainViewModel", "success")
+                }
+                else {
+                    Log.d("MainViewModel", response.message())
                 }
             }
         }

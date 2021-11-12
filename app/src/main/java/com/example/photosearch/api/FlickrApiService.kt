@@ -13,4 +13,10 @@ interface FlickrApiService {
     suspend fun getSearchResult(
         @Query("text") text: String,
     ): Response<ApiResponse>
+
+    @GET("services/rest/?method=flickr.photos.search&api_key=$API_KEY&format=json&nojsoncallback=1")
+    suspend fun getNewPage(
+        @Query("text") text: String,
+        @Query("page") page: Int
+        ): Response<ApiResponse>
 }

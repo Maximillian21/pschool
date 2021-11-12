@@ -20,6 +20,10 @@ class Repository(
         return apiService.getSearchResult(text)
     }
 
+    suspend fun getNewPage(text: String, page: Int): Response<ApiResponse> {
+        return apiService.getNewPage(text, page)
+    }
+
     fun isExists(photoId: String) = photoDao.isExists(photoId)
 
     fun getAll(id: Int) = photoDao.getAll(id)

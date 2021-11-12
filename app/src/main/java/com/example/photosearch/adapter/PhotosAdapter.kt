@@ -19,6 +19,11 @@ class PhotosAdapter(
         notifyDataSetChanged()
     }
 
+    fun addData(newPhotosList :MutableList<Photo>) {
+        photosList.addAll(newPhotosList)
+        notifyDataSetChanged()
+    }
+
     fun removeItem(position: Int) {
         photosList.removeAt(position)
         notifyItemRemoved(position)
