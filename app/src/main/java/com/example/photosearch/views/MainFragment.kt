@@ -2,6 +2,7 @@ package com.example.photosearch.views
 
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment: Fragment() {
+    private var pages = 1
 
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
@@ -79,8 +81,9 @@ class MainFragment: Fragment() {
                         ( binding.rvPhotos.layoutManager as LinearLayoutManager?)!!.findFirstVisibleItemPosition()
                     if (loading) {
                         if (visibleItemCount + pastVisibleItems >= totalItemCount) {
-                            loading = false
-                            viewModel.loadNextPage(binding.searchField.text.toString(), ++page)
+                            if(++page <= pages)
+                                viewModel.loadNextPage(binding.searchField.text.toString(), page)
+                            Log.d("MainFragment", page.toString())
                             loading = true
                         }
                     }
@@ -126,6 +129,8 @@ class MainFragment: Fragment() {
                 GlobalScope.launch(Dispatchers.IO) {
                     viewModel.setPhotoValues(it, binding.searchField.text.toString(), args.account.id)
                 }
+                //if pages count was changed it will update
+                pages = it.photos.pages
                 adapter.addData(it.photos.photo.toMutableList())
             }
         })
