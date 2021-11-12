@@ -13,12 +13,6 @@ class PhotosAdapter(
 
     private  var photosList: MutableList<Photo> = mutableListOf()
 
-    fun setData(newPhotosList :MutableList<Photo>) {
-        photosList.clear()
-        photosList.addAll(newPhotosList)
-        notifyDataSetChanged()
-    }
-
     fun addData(newPhotosList :MutableList<Photo>) {
         photosList.addAll(newPhotosList)
         notifyDataSetChanged()
