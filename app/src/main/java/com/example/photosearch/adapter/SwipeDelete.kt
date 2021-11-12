@@ -9,7 +9,7 @@ class SwipeDelete(var adapter: PhotosAdapter): ItemTouchHelper.SimpleCallback(0,
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {

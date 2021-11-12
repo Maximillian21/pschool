@@ -9,7 +9,7 @@ class SwipeFavouritesDelete(var adapter: FavouritePhotoAdapter): ItemTouchHelper
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        TODO("Not yet implemented")
+        return false
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
