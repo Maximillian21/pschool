@@ -2,7 +2,7 @@ package com.example.photosearch.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.photosearch.api.Repository
+import com.example.photosearch.repository.Repository
 import com.example.photosearch.data.Photo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

@@ -1,5 +1,6 @@
-package com.example.photosearch.api
+package com.example.photosearch.repository
 
+import com.example.photosearch.api.FlickrApiService
 import com.example.photosearch.data.Account
 import com.example.photosearch.data.ApiResponse
 import com.example.photosearch.data.Photo

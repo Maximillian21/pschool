@@ -1,7 +1,7 @@
 package com.example.photosearch.di
 
 import com.example.photosearch.api.FlickrApiService
-import com.example.photosearch.api.Repository
+import com.example.photosearch.repository.Repository
 import com.example.photosearch.database.AccountDao
 import com.example.photosearch.database.PhotoDao
 import com.example.photosearch.database.SearchHistoryDao
