@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.photosearch.views.MainFragment"
+        tools:layout="@layout/fragment_main">
+        <argument
+            android:name="account"
+            app:argType="com.example.photosearch.data.Account"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/favourites"
+        android:name="com.example.photosearch.views.FavouritesFragment"
+        tools:layout="@layout/fragment_favourites">
+        <argument
+            android:name="account"
+            app:argType="com.example.photosearch.data.Account"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/fullViewFragment"
+        android:name="com.example.photosearch.views.FullViewFragment"
+        tools:layout="@layout/fragment_full_view">
+        <argument
+            android:name="photo"
+            app:argType="com.example.photosearch.data.Photo"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.photosearch.views.LoginFragment"
+        tools:layout="@layout/fragment_login">
+    </fragment>
+
+    <action
+        android:id="@+id/showFullView"
+        app:destination="@id/fullViewFragment">
+        <argument
+            android:name="photo"
+            app:argType="com.example.photosearch.data.Photo"/>
+    </action>
+
+    <action
+        android:id="@+id/showFavourites"
+        app:destination="@id/favourites" />
+
+    <action
+        android:id="@+id/enterAccount"
+        app:destination="@id/mainFragment">
+        <argument
+            android:name="account"
+            app:argType="com.example.photosearch.data.Account"/>
+    </action>
+</navigation>
