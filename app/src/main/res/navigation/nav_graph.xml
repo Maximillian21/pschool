@@ -16,8 +16,8 @@
 
     <fragment
         android:id="@+id/favourites"
-        android:name="com.example.photosearch.views.FavouritesFragment"
-        tools:layout="@layout/fragment_favourites">
+        android:name="com.example.photosearch.views.FavoritesFragment"
+        tools:layout="@layout/fragment_favorites">
         <argument
             android:name="account"
             app:argType="com.example.photosearch.data.Account"/>

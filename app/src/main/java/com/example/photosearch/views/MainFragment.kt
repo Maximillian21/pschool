@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment: Fragment() {
-    private var pages = 1
+    private var pages = 600
 
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
@@ -62,34 +62,8 @@ class MainFragment: Fragment() {
         binding.searchField.setAdapter(dropDownAdapter)
         attachItemTouchHelper()
 
-        setOnScrollListener()
-    }
-
-    private fun setOnScrollListener() {
-        var loading = true
-        var pastVisibleItems: Int
-        var visibleItemCount: Int
-        var totalItemCount: Int
-        var page = 1
-
-        binding.rvPhotos.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0) {
-                    visibleItemCount = binding.rvPhotos.layoutManager!!.childCount
-                    totalItemCount = binding.rvPhotos.layoutManager!!.itemCount
-                    pastVisibleItems =
-                        ( binding.rvPhotos.layoutManager as LinearLayoutManager?)!!.findFirstVisibleItemPosition()
-                    if (loading) {
-                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
-                            if(++page <= pages)
-                                viewModel.loadNextPage(binding.searchField.text.toString(), page)
-                            Log.d("MainFragment", page.toString())
-                            loading = true
-                        }
-                    }
-                }
-            }
-        })
+        binding.rvPhotos.addOnScrollListener(viewModel.getOnScroll(binding.rvPhotos.layoutManager!!,
+            binding.searchField.text.toString()))
     }
 
     private fun setSearchHistory() {
@@ -108,7 +82,7 @@ class MainFragment: Fragment() {
         }
 
         binding.btnFavourites.setOnClickListener{
-            findNavController().navigate(FavouritesFragmentDirections.showFavourites(args.account))
+            findNavController().navigate(FavoritesFragmentDirections.showFavourites(args.account))
         }
 
         binding.searchField.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
@@ -130,7 +104,7 @@ class MainFragment: Fragment() {
                     viewModel.setPhotoValues(it, binding.searchField.text.toString(), args.account.id)
                 }
                 //if pages count was changed it will update
-                pages = it.photos.pages
+                viewModel.pages = it.photos.pages
                 adapter.addData(it.photos.photo.toMutableList())
             }
         })

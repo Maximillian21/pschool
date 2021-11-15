@@ -19,5 +19,6 @@ data class Photo(
     val server: String,
     val title: String,
     var searchText: String,
-    var accountId: Int
+    var accountId: Int,
+    var photoLink: String
 ): Parcelable

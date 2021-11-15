@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.photosearch.repository.Repository
 import com.example.photosearch.data.ApiResponse
 import com.example.photosearch.data.SearchHistory
@@ -18,7 +20,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
-    private val prefKey = "count"
+    var pages: Int = 1
+    private val prefKey = "history"
     private val sharedPrefFile = "sharedPreference"
     lateinit var sharedPreferences: SharedPreferences
 
@@ -29,10 +32,6 @@ class MainViewModel @Inject constructor(
 
     fun refresh(text: String) {
         fetchLinks(text)
-    }
-
-    fun loadNextPage(text: String, page: Int) {
-        fetchNewPage(text, page)
     }
 
     private fun fetchLinks(text: String) {
@@ -68,6 +67,35 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun getOnScroll(layoutManager: RecyclerView.LayoutManager, text: String): RecyclerView.OnScrollListener {
+        var loadingScroll = true
+        var pastVisibleItems: Int
+        var visibleItemCount: Int
+        var totalItemCount: Int
+        var page = 1
+
+        return object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0) {
+                    visibleItemCount = layoutManager.childCount
+                    totalItemCount = layoutManager.itemCount
+                    pastVisibleItems =
+                        ( layoutManager as LinearLayoutManager?)!!.findFirstVisibleItemPosition()
+                    if (loadingScroll) {
+                        if (visibleItemCount + pastVisibleItems >= totalItemCount) {
+                            if(++page <= pages) {
+                                Log.d("MainViewModel page", page.toString())
+                                Log.d("MainViewModel text", text)
+                                fetchNewPage(text, page)
+                            }
+                            loadingScroll = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fun getHistory(id: Int) {
         searchHistory = repository.getHistory(id)
     }
@@ -78,6 +106,7 @@ class MainViewModel @Inject constructor(
         for(i in apiResponse.photos.photo) {
             i.searchText = searchText
             i.accountId = accountId
+            i.photoLink = "https://live.staticflickr.com/${i.server}/${i.id}_${i.secret}_m.jpg"
         }
     }.await()
 

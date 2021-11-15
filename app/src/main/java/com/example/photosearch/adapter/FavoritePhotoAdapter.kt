@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.photosearch.data.Photo
-import com.example.photosearch.databinding.FavouriteItemBinding
+import com.example.photosearch.databinding.FavoriteItemBinding
 import com.example.photosearch.viewmodels.FavoritesViewModel
 
 class FavouritePhotoAdapter(
@@ -28,7 +28,7 @@ class FavouritePhotoAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouritePhotosViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = FavouriteItemBinding.inflate(inflater, parent, false)
+        val binding = FavoriteItemBinding.inflate(inflater, parent, false)
         return FavouritePhotosViewHolder(binding, onClick)
     }
 
@@ -45,7 +45,7 @@ class FavouritePhotoAdapter(
 }
 
 class FavouritePhotosViewHolder(
-    val binding: FavouriteItemBinding,
+    val binding: FavoriteItemBinding,
     private val onClick: (Photo) -> Unit
 ): RecyclerView.ViewHolder(binding.root) {
 
@@ -59,7 +59,7 @@ class FavouritePhotosViewHolder(
 
     fun bindItem(photos: Photo) = with(binding) {
         item = photos
-        val photoLink = "https://live.staticflickr.com/${photos.server}/${photos.id}_${photos.secret}_m.jpg"
+        val photoLink = photos.photoLink
         Glide.with(ivPhotoItem)
             .load(photoLink)
             .into(ivPhotoItem)

@@ -53,8 +53,7 @@ class PhotosViewHolder(
 
     fun bindItem(photos: Photo) = with(binding) {
         item = photos
-        //as i understood we need to paste this query link
-        val photoLink = "https://live.staticflickr.com/${photos.server}/${photos.id}_${photos.secret}_m.jpg"
+        val photoLink = photos.photoLink
         Glide.with(ivPhotoItem)
             .load(photoLink)
             .into(ivPhotoItem)

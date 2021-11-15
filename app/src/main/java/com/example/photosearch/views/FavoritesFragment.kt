@@ -9,17 +9,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.photosearch.adapter.*
-import com.example.photosearch.databinding.FragmentFavouritesBinding
+import com.example.photosearch.databinding.FragmentFavoritesBinding
 import com.example.photosearch.viewmodels.FavoritesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavouritesFragment: Fragment() {
-    private var _binding: FragmentFavouritesBinding? = null
-    private val binding: FragmentFavouritesBinding
+class FavoritesFragment: Fragment() {
+    private var _binding: FragmentFavoritesBinding? = null
+    private val binding: FragmentFavoritesBinding
         get() = _binding!!
 
-    private val args: FavouritesFragmentArgs by navArgs()
+    private val args: FavoritesFragmentArgs by navArgs()
     private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreateView(
@@ -27,7 +27,7 @@ class FavouritesFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFavouritesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return _binding?.root
     }
 
@@ -45,8 +45,6 @@ class FavouritesFragment: Fragment() {
             adapter.setData(it.toMutableList())
         }
         binding.rvPhotos.adapter = adapter
-//        val itemTouchHelper = ItemTouchHelper(SwipeFavouritesDelete(adapter))
-//        itemTouchHelper.attachToRecyclerView(binding.rvPhotos)
     }
 
     override fun onDestroyView() {

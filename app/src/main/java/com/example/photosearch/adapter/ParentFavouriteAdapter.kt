@@ -41,7 +41,7 @@ class ParentFavouriteAdapter(
             holder.binding.section.text = photosList[position].searchText
         }
         holder.binding.rvChild.adapter = adapter
-        val itemTouchHelper = ItemTouchHelper(SwipeFavouritesDelete(adapter))
+        val itemTouchHelper = ItemTouchHelper(SwipeFavoritesDelete(adapter))
         itemTouchHelper.attachToRecyclerView(holder.binding.rvChild)
     }
 

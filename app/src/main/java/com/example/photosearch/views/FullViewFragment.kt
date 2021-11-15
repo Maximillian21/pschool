@@ -37,7 +37,7 @@ class FullViewFragment: Fragment() {
         Log.d("FullViewFragment", args.photo.searchText)
         binding.tvPhotoTitle.text = args.photo.searchText
 
-        val photoLink = "https://live.staticflickr.com/${args.photo.server}/${args.photo.id}_${args.photo.secret}.jpg"
+        val photoLink = args.photo.photoLink
         Glide.with(binding.ivPhotoPreview)
             .load(photoLink)
             .into(binding.ivPhotoPreview)
@@ -45,10 +45,10 @@ class FullViewFragment: Fragment() {
         val isExists = viewModel.isExists(args.photo.id)
         isExists.observe(viewLifecycleOwner) { isExist ->
             if(isExist) {
-                binding.btnFavourites.setText(R.string.remove_favourites)
+                binding.btnFavourites.setText(R.string.remove_favorites)
             }
             else {
-                binding.btnFavourites.setText(R.string.save_favourites)
+                binding.btnFavourites.setText(R.string.save_favorites)
             }
         }
 

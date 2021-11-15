@@ -3,8 +3,8 @@
     <string name="find">Find</string>
     <string name="saved">Saved</string>
     <string name="favorites">Favorites</string>
-    <string name="save_favourites">Save to favourites</string>
-    <string name="remove_favourites">Remove from favourites</string>
+    <string name="save_favorites">Save to favorites</string>
+    <string name="remove_favorites">Remove from favorites</string>
     <string name="password">Password</string>
     <string name="email_login">Email/login</string>
     <string name="sign_in_register">Sign in/register</string>
