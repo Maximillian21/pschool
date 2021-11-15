@@ -2,7 +2,6 @@ package com.example.photosearch.views
 
 import android.R
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.photosearch.adapter.PhotosAdapter
+import com.example.photosearch.adapter.PhotosChildAdapter
 import com.example.photosearch.adapter.SwipeDelete
 import com.example.photosearch.databinding.FragmentMainBinding
 import com.example.photosearch.viewmodels.MainViewModel
@@ -25,19 +22,18 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment: Fragment() {
-    private var pages = 600
-
     private var _binding: FragmentMainBinding? = null
     private val binding: FragmentMainBinding
         get() = _binding!!
 
-    private val adapter = PhotosAdapter { photo ->
-        findNavController().navigate(MainFragmentDirections.showFullView(photo))
-    }
     private val history = mutableListOf<String>()
     private lateinit var dropDownAdapter: ArrayAdapter<String>
     private val viewModel: MainViewModel by viewModels()
     private val args: MainFragmentArgs by navArgs()
+
+    private val dataAdapter = PhotosChildAdapter { photo ->
+        findNavController().navigate(MainFragmentDirections.showFullView(photo))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,13 +48,12 @@ class MainFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.searchField.setText(viewModel.loadPref(requireActivity()))
-
         setSearchHistory()
 
         setListeners()
         observeViewModel()
 
-        binding.rvPhotos.adapter = adapter
+        binding.rvPhotos.adapter = dataAdapter
         binding.searchField.setAdapter(dropDownAdapter)
         attachItemTouchHelper()
 
@@ -93,7 +88,7 @@ class MainFragment: Fragment() {
     }
 
     private fun attachItemTouchHelper() {
-        val itemTouchHelper = ItemTouchHelper(SwipeDelete(adapter))
+        val itemTouchHelper = ItemTouchHelper(SwipeDelete(dataAdapter))
         itemTouchHelper.attachToRecyclerView(binding.rvPhotos)
     }
 
@@ -105,7 +100,7 @@ class MainFragment: Fragment() {
                 }
                 //if pages count was changed it will update
                 viewModel.pages = it.photos.pages
-                adapter.addData(it.photos.photo.toMutableList())
+                dataAdapter.setData(it.photos.photo.toMutableList())
             }
         })
 
