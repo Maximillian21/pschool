@@ -3,7 +3,7 @@ package com.example.photosearch.adapter
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class SwipeDelete(var adapter: PhotosAdapter): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+class SwipeDelete(var adapter: PhotosChildAdapter): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
     override fun onMove(
         recyclerView: RecyclerView,
         viewHolder: RecyclerView.ViewHolder,

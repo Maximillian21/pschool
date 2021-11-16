@@ -14,7 +14,7 @@ class LoginViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    lateinit var savedPhoto: LiveData<Account>
+    lateinit var account: LiveData<Account>
 
     fun setAccountId(login: String) = repository.getAccountId(login)
 
@@ -22,6 +22,6 @@ class LoginViewModel @Inject constructor(
 
     suspend fun addAccount(account: Account) = viewModelScope.async {
         repository.addAccount(account)
-        savedPhoto = setAccountId(account.login)
+        this@LoginViewModel.account = setAccountId(account.login)
     }.await()
 }

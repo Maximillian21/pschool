@@ -30,7 +30,7 @@ class ParentFavouriteAdapter(
     }
 
     override fun onBindViewHolder(holder: ParentFavouriteViewHolder, position: Int) {
-        val adapter = FavouritePhotoAdapter(viewModel, onClick)
+        val adapter = FavoritesChildAdapter(viewModel, onClick)
         adapter.addData(photosList[position], position)
 
         if (position > 0 && photosList[position - 1].searchText.substring(0, 1) ==
@@ -41,7 +41,7 @@ class ParentFavouriteAdapter(
             holder.binding.section.text = photosList[position].searchText
         }
         holder.binding.rvChild.adapter = adapter
-        val itemTouchHelper = ItemTouchHelper(SwipeFavouritesDelete(adapter))
+        val itemTouchHelper = ItemTouchHelper(SwipeFavoritesDelete(adapter))
         itemTouchHelper.attachToRecyclerView(holder.binding.rvChild)
     }
 

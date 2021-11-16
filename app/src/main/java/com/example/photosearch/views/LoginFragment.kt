@@ -48,7 +48,7 @@ class LoginFragment: Fragment() {
                     else {
                         GlobalScope.launch(Dispatchers.Main) {
                             viewModel.addAccount(Account(binding.etLogin.text.toString()))
-                            viewModel.savedPhoto.observe(viewLifecycleOwner) {
+                            viewModel.account.observe(viewLifecycleOwner) {
                                 findNavController().navigate(LoginFragmentDirections.enterAccount(it))
                             }
                         }
