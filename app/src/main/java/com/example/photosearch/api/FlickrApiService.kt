@@ -20,4 +20,10 @@ interface FlickrApiService {
         @Query("text") text: String,
         @Query("page") page: Int
         ): Response<ApiResponse>
+
+    @GET("services/rest/?method=flickr.photos.search&api_key=$key&format=json&nojsoncallback=1")
+    suspend fun getByGeo(
+        @Query("lat") lat: Double,
+        @Query("lon") lon: Double
+    ): Response<ApiResponse>
 }
