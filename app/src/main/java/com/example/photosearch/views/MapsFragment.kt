@@ -39,21 +39,10 @@ class MapsFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
-        googleMap.setOnMapClickListener {
+        googleMap.setOnMapLongClickListener {
             marker?.remove()
-            marker = googleMap.addMarker(
-                MarkerOptions()
-                    .position(it)
-                    .draggable(true)
-            )
-            marker!!.tag = null
-
-            val cameraPosition = CameraPosition.Builder()
-                .target(it)
-                .zoom(7f)
-                .build()
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
+            createMarker(it)
+            marker?.tag = "Chosen point"
             binding.btnMapConfirm.isEnabled = true
         }
 
@@ -68,14 +57,17 @@ class MapsFragment : Fragment() {
             != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION),
                 REQUEST_LOCATION_PERMISSION)
         } else {
             val client = LocationServices.getFusedLocationProviderClient(requireActivity())
             client.lastLocation.addOnSuccessListener { location: Location? ->
                 if (location != null) {
-                    moveMap(location.latitude, location.longitude)
-                    Log.d("MapsFragment", location.latitude.toString())
+                    createMarker(LatLng(location.latitude, location.longitude))
+                    marker?.tag = "Location point"
+                    binding.btnMapConfirm.isEnabled = true
+                    Log.d("MapsFragmentLat", location.latitude.toString())
                     Log.d("MapsFragmentLon", location.longitude.toString())
                 }
             }
@@ -83,23 +75,18 @@ class MapsFragment : Fragment() {
         }
     }
 
-    fun moveMap(latitude: Double, longitude: Double) {
-        Log.v("MapsFragment", "location marker")
-        val latlng = LatLng(latitude, longitude)
+    private fun createMarker(latLng: LatLng) {
         marker = map.addMarker(
             MarkerOptions()
-                .position(latlng)
+                .position(latLng)
                 .draggable(true)
         )
-        marker!!.tag = null
 
         val cameraPosition = CameraPosition.Builder()
-            .target(latlng)
+            .target(latLng)
             .zoom(7f)
             .build()
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-
-        binding.btnMapConfirm.isEnabled = true
     }
 
     override fun onRequestPermissionsResult(
