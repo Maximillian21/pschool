@@ -25,6 +25,10 @@ class Repository(
         return apiService.getNewPage(text, page)
     }
 
+    suspend fun getByGeo(lat: Double, lon: Double): Response<ApiResponse> {
+        return apiService.getByGeo(lat, lon)
+    }
+
     fun isExists(photoId: String) = photoDao.isExists(photoId)
 
     fun getAll(id: Int) = photoDao.getAll(id)

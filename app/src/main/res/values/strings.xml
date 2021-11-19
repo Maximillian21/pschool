@@ -8,4 +8,7 @@
     <string name="password">Password</string>
     <string name="email_login">Email/login</string>
     <string name="sign_in_register">Sign in/register</string>
+    <string name="confirm">Confirm</string>
+    <string name="to_map">To map</string>
+    <string name="results">Results</string>
 </resources>

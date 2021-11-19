@@ -76,6 +76,10 @@ class MainFragment: Fragment() {
             }
         }
 
+        binding.mapButton.setOnClickListener {
+            findNavController().navigate(MapsFragmentDirections.showMap(args.account))
+        }
+
         binding.btnFavourites.setOnClickListener{
             findNavController().navigate(FavoritesFragmentDirections.showFavourites(args.account))
         }
