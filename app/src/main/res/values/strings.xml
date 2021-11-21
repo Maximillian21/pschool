@@ -11,4 +11,7 @@
     <string name="confirm">Get photos</string>
     <string name="results">Results</string>
     <string name="to_map">To map</string>
+    <string name="location_permission_available">Loading location.</string>
+    <string name="ok">OK</string>
+    <string name="user_notification">Please, allow app to access location</string>
 </resources>
