@@ -19,15 +19,12 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: Repository
-) : ViewModel() {
+) : BaseResultsViewModel() {
     var pages: Int = 1
     private val prefKey = "history"
     private val sharedPrefFile = "sharedPreference"
     lateinit var sharedPreferences: SharedPreferences
 
-    private var job: Job? = null
-    val photosLinks = MutableLiveData<ApiResponse>()
-    val loading = MutableLiveData<Boolean>()
     lateinit var searchHistory: LiveData<List<SearchHistory>>
 
     fun refresh(text: String) {
@@ -40,7 +37,7 @@ class MainViewModel @Inject constructor(
             val response = repository.getSearchResult(text)
             withContext(Dispatchers.Main) {
                 if(response.isSuccessful) {
-                    photosLinks.postValue(response.body())
+                    photosList.postValue(response.body())
                     loading.value = false
                     Log.d("MainViewModel", "success")
                 }
@@ -57,7 +54,7 @@ class MainViewModel @Inject constructor(
             val response = repository.getNewPage(text, page)
             withContext(Dispatchers.Main) {
                 if(response.isSuccessful) {
-                    photosLinks.postValue(response.body())
+                    photosList.postValue(response.body())
                     Log.d("MainViewModel", "success")
                 }
                 else {
@@ -100,16 +97,6 @@ class MainViewModel @Inject constructor(
         searchHistory = repository.getHistory(id)
     }
 
-
-    suspend fun setPhotoValues(apiResponse: ApiResponse, searchText: String, accountId: Int) =
-        viewModelScope.async{
-        for(i in apiResponse.photos.photo) {
-            i.searchText = searchText
-            i.accountId = accountId
-            i.photoLink = "https://live.staticflickr.com/${i.server}/${i.id}_${i.secret}_m.jpg"
-        }
-    }.await()
-
     fun loadPref(context: Context): String {
         sharedPreferences = context.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE)
         val count = sharedPreferences.getString(prefKey, "")
@@ -128,10 +115,5 @@ class MainViewModel @Inject constructor(
             field.accountId = accountId
             repository.addQuery(field)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
     }
 }

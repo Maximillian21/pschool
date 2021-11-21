@@ -13,11 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MapsResultsViewModel @Inject constructor(
     private val repository: Repository
-): ViewModel(){
-
-    private var job: Job? = null
-    val photosList = MutableLiveData<ApiResponse>()
-    val loading = MutableLiveData<Boolean>()
+): BaseResultsViewModel(){
 
     fun refresh(lat: Double, lon: Double) {
         fetchLinks(lat, lon)
@@ -40,13 +36,4 @@ class MapsResultsViewModel @Inject constructor(
             }
         }
     }
-
-    suspend fun setPhotoValues(apiResponse: ApiResponse, coordinates: String, accountId: Int) =
-        viewModelScope.async{
-            for(i in apiResponse.photos.photo) {
-                i.searchText = coordinates
-                i.accountId = accountId
-                i.photoLink = "https://live.staticflickr.com/${i.server}/${i.id}_${i.secret}_m.jpg"
-            }
-        }.await()
 }
