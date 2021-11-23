@@ -76,6 +76,10 @@ class MainFragment: Fragment() {
             }
         }
 
+        binding.mapButton.setOnClickListener {
+            findNavController().navigate(MapsFragmentDirections.showMap(args.account))
+        }
+
         binding.btnFavourites.setOnClickListener{
             findNavController().navigate(FavoritesFragmentDirections.showFavourites(args.account))
         }
@@ -93,7 +97,7 @@ class MainFragment: Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.photosLinks.observe(viewLifecycleOwner, { results ->
+        viewModel.photosList.observe(viewLifecycleOwner, { results ->
             results?.let {
                 GlobalScope.launch(Dispatchers.IO) {
                     viewModel.setPhotoValues(it, binding.searchField.text.toString(), args.account.id)
