@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -20,7 +21,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.photosearch.R
 import com.example.photosearch.databinding.FragmentFullViewBinding
-import com.example.photosearch.sdk29AndUp
 import com.example.photosearch.viewmodels.FullViewViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -115,37 +115,10 @@ class FullViewFragment: Fragment() {
     private fun writeImage() {
         val bitmap = binding.ivPhotoPreview.drawable.toBitmap()
         lifecycleScope.launch {
-            savePhotoToExternalStorage(UUID.randomUUID().toString(), bitmap)
+            viewModel.savePhotoToExternalStorage(UUID.randomUUID().toString(),
+                bitmap, requireContext())
         }
 
-    }
-
-    private suspend fun savePhotoToExternalStorage(displayName: String, bmp: Bitmap): Boolean {
-        return withContext(Dispatchers.IO) {
-            val imageCollection = sdk29AndUp {
-                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
-            } ?: MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-
-            val contentValues = ContentValues().apply {
-                put(MediaStore.Images.Media.DISPLAY_NAME, "$displayName.jpg")
-                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
-                put(MediaStore.Images.Media.WIDTH, bmp.width)
-                put(MediaStore.Images.Media.HEIGHT, bmp.height)
-            }
-            try {
-                requireContext().contentResolver.insert(imageCollection, contentValues)?.also { uri ->
-                    requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
-                        if(!bmp.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)) {
-                            throw IOException("Couldn't save bitmap")
-                        }
-                    }
-                } ?: throw IOException("Couldn't create MediaStore entry")
-                true
-            } catch(e: IOException) {
-                e.printStackTrace()
-                false
-            }
-        }
     }
 
     private fun requestStoragePermission() {
@@ -166,7 +139,6 @@ class FullViewFragment: Fragment() {
                 PERMISSION_WRITE)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
