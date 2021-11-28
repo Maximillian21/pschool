@@ -24,19 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
         android:text="@string/find"
-        app:layout_constraintEnd_toStartOf="@id/map_button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_field" />
-
-    <Button
-        android:id="@+id/map_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_marginTop="16dp"
-        android:text="@string/to_map"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/find_button"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_field" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -49,17 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/find_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btn_favourites"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/favorites"
-        android:layout_marginBottom="@dimen/default_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         />
 
     <ProgressBar

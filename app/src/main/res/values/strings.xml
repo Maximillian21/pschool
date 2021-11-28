@@ -14,4 +14,7 @@
     <string name="location_permission_available">Loading location.</string>
     <string name="ok">OK</string>
     <string name="user_notification">Please, allow app to access location</string>
+    <string name="edit_question">Edit image?</string>
+    <string name="yes">Yes</string>
+    <string name="external_permission">Allow permission for external images</string>
 </resources>

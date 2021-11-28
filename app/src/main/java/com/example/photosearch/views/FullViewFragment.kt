@@ -1,24 +1,43 @@
 package com.example.photosearch.views
 
+import android.Manifest
+import android.content.ContentValues
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.photosearch.R
 import com.example.photosearch.databinding.FragmentFullViewBinding
+import com.example.photosearch.sdk29AndUp
 import com.example.photosearch.viewmodels.FullViewViewModel
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.util.*
+
 
 @AndroidEntryPoint
 class FullViewFragment: Fragment() {
     private var _binding: FragmentFullViewBinding? = null
     private val binding: FragmentFullViewBinding
         get() = _binding!!
+    
+    private val PERMISSION_WRITE = 0
 
     private val viewModel: FullViewViewModel by viewModels()
     private val args: FullViewFragmentArgs by navArgs()
@@ -60,7 +79,94 @@ class FullViewFragment: Fragment() {
                 viewModel.save(args.photo)
             }
         }
+
+        binding.btnSaveOnDevise.setOnClickListener {
+            getStoragePermission()
+        }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray) {
+        if (requestCode == PERMISSION_WRITE) {
+            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("FullViewFragment", "Permission was granted")
+                writeImage()
+            } else {
+                Log.d("FullViewFragment", "Permission denied")
+            }
+        }
+    }
+
+    private fun getStoragePermission() {
+        if(ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
+            writeImage()
+        } else {
+            requestStoragePermission()
+        }
+    }
+
+    private fun writeImage() {
+        val bitmap = binding.ivPhotoPreview.drawable.toBitmap()
+        lifecycleScope.launch {
+            savePhotoToExternalStorage(UUID.randomUUID().toString(), bitmap)
+        }
+
+    }
+
+    private suspend fun savePhotoToExternalStorage(displayName: String, bmp: Bitmap): Boolean {
+        return withContext(Dispatchers.IO) {
+            val imageCollection = sdk29AndUp {
+                MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+            } ?: MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, "$displayName.jpg")
+                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+                put(MediaStore.Images.Media.WIDTH, bmp.width)
+                put(MediaStore.Images.Media.HEIGHT, bmp.height)
+            }
+            try {
+                requireContext().contentResolver.insert(imageCollection, contentValues)?.also { uri ->
+                    requireContext().contentResolver.openOutputStream(uri).use { outputStream ->
+                        if(!bmp.compress(Bitmap.CompressFormat.JPEG, 95, outputStream)) {
+                            throw IOException("Couldn't save bitmap")
+                        }
+                    }
+                } ?: throw IOException("Couldn't create MediaStore entry")
+                true
+            } catch(e: IOException) {
+                e.printStackTrace()
+                false
+            }
+        }
+    }
+
+    private fun requestStoragePermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            val snackbar = Snackbar.make(binding.layoutFullView,
+                getString(R.string.external_permission),
+                Snackbar.LENGTH_INDEFINITE)
+            snackbar.setAction(getString(R.string.ok)) {
+                ActivityCompat.requestPermissions(requireActivity(),
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    PERMISSION_WRITE)
+            }.show()
+
+        } else {
+            Log.d("FullViewFragment", "Storage permission is not granted")
+            ActivityCompat.requestPermissions(requireActivity(),
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                PERMISSION_WRITE)
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
