@@ -2,7 +2,6 @@
     <string name="app_name">PhotoSearch</string>
     <string name="find">Find</string>
     <string name="saved">Saved</string>
-    <string name="favorites">Favorites</string>
     <string name="save_favorites">Save to favorites</string>
     <string name="remove_favorites">Remove from favorites</string>
     <string name="password">Password</string>
@@ -14,4 +13,11 @@
     <string name="location_permission_available">Loading location.</string>
     <string name="ok">OK</string>
     <string name="user_notification">Please, allow app to access location</string>
+    <string name="edit_question">Edit image?</string>
+    <string name="yes">Yes</string>
+    <string name="external_permission">Allow permission for external images</string>
+    <string name="home">Home</string>
+    <string name="map">Map</string>
+    <string name="favorites">Favorites</string>
+    <string name="gallery">Gallery</string>
 </resources>

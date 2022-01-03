@@ -1,7 +1,7 @@
 package com.example.photosearch.views
 
-import android.R
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.example.photosearch.BaseApp
+import com.example.photosearch.R
 import com.example.photosearch.adapter.PhotosChildAdapter
 import com.example.photosearch.adapter.SwipeDelete
 import com.example.photosearch.databinding.FragmentMainBinding
@@ -29,7 +33,6 @@ class MainFragment: Fragment() {
     private val history = mutableListOf<String>()
     private lateinit var dropDownAdapter: ArrayAdapter<String>
     private val viewModel: MainViewModel by viewModels()
-    private val args: MainFragmentArgs by navArgs()
 
     private val dataAdapter = PhotosChildAdapter { photo ->
         findNavController().navigate(MainFragmentDirections.showFullView(photo))
@@ -59,29 +62,23 @@ class MainFragment: Fragment() {
 
         binding.rvPhotos.addOnScrollListener(viewModel.getOnScroll(binding.rvPhotos.layoutManager!!,
             binding.searchField.text.toString()))
+
+        Log.d("MainFragment", BaseApp.globalAccountId.toString())
     }
 
     private fun setSearchHistory() {
         dropDownAdapter = ArrayAdapter(requireContext(),
-            R.layout.simple_dropdown_item_1line, history)
-        viewModel.getHistory(args.account.id)
+            android.R.layout.simple_dropdown_item_1line, history)
+        viewModel.getHistory(BaseApp.globalAccountId)
     }
 
     private fun setListeners() {
         binding.findButton.setOnClickListener {
             val text = binding.searchField.text.toString()
             if(text.isNotBlank()) {
-                viewModel.addQuery(text, args.account.id)
+                viewModel.addQuery(text)
                 viewModel.refresh(text)
             }
-        }
-
-        binding.mapButton.setOnClickListener {
-            findNavController().navigate(MapsFragmentDirections.showMap(args.account))
-        }
-
-        binding.btnFavourites.setOnClickListener{
-            findNavController().navigate(FavoritesFragmentDirections.showFavourites(args.account))
         }
 
         binding.searchField.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
@@ -100,7 +97,7 @@ class MainFragment: Fragment() {
         viewModel.photosList.observe(viewLifecycleOwner, { results ->
             results?.let {
                 GlobalScope.launch(Dispatchers.IO) {
-                    viewModel.setPhotoValues(it, binding.searchField.text.toString(), args.account.id)
+                    viewModel.setPhotoValues(it, binding.searchField.text.toString())
                 }
                 //if pages count was changed it will update
                 viewModel.pages = it.photos.pages

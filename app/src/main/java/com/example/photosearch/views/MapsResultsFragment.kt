@@ -51,7 +51,7 @@ class MapsResultsFragment: Fragment() {
             results?.let {
                 GlobalScope.launch(Dispatchers.IO) {
                     val coordinates = args.coordinates.latitude.toString() + ", " + args.coordinates.longitude.toString()
-                    viewModel.setPhotoValues(it, coordinates, args.account.id)
+                    viewModel.setPhotoValues(it, coordinates)
                 }
                 dataAdapter.setData(it.photos.photo.toMutableList())
             }

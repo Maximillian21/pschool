@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.photosearch.BaseApp
 import com.example.photosearch.adapter.*
 import com.example.photosearch.databinding.FragmentFavoritesBinding
 import com.example.photosearch.viewmodels.FavoritesViewModel
@@ -19,7 +20,6 @@ class FavoritesFragment: Fragment() {
     private val binding: FragmentFavoritesBinding
         get() = _binding!!
 
-    private val args: FavoritesFragmentArgs by navArgs()
     private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class FavoritesFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getFavoritesPhotos(args.account.id)
+        viewModel.getFavoritesPhotos(BaseApp.globalAccountId)
         observeViewModel()
     }
 

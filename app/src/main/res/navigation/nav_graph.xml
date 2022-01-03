@@ -9,18 +9,12 @@
         android:id="@+id/mainFragment"
         android:name="com.example.photosearch.views.MainFragment"
         tools:layout="@layout/fragment_main">
-        <argument
-            android:name="account"
-            app:argType="com.example.photosearch.data.Account"/>
     </fragment>
 
     <fragment
         android:id="@+id/favourites"
         android:name="com.example.photosearch.views.FavoritesFragment"
         tools:layout="@layout/fragment_favorites">
-        <argument
-            android:name="account"
-            app:argType="com.example.photosearch.data.Account"/>
     </fragment>
 
     <fragment
@@ -41,11 +35,13 @@
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.photosearch.views.MapsFragment"
-        android:label="MapsFragment"
         tools:layout="@layout/fragment_maps">
-        <argument
-            android:name="account"
-            app:argType="com.example.photosearch.data.Account"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.photosearch.views.GalleryFragment"
+        tools:layout="@layout/fragment_gallery">
     </fragment>
 
     <action
@@ -59,29 +55,16 @@
     <action
         android:id="@+id/showMap"
         app:destination="@id/mapsFragment">
-        <argument
-            android:name="account"
-            app:argType="com.example.photosearch.data.Account"/>
     </action>
-
-    <action
-        android:id="@+id/showFavourites"
-        app:destination="@id/favourites" />
 
     <action
         android:id="@+id/enterAccount"
         app:destination="@id/mainFragment">
-        <argument
-            android:name="account"
-            app:argType="com.example.photosearch.data.Account"/>
     </action>
 
     <action
         android:id="@+id/showGeoResults"
         app:destination="@id/mapsResultsFragment">
-        <argument
-            android:name="account"
-            app:argType="com.example.photosearch.data.Account"/>
         <argument
             android:name="coordinates"
             app:argType="com.google.android.gms.maps.model.LatLng"/>
@@ -90,11 +73,7 @@
     <fragment
         android:id="@+id/mapsResultsFragment"
         android:name="com.example.photosearch.views.MapsResultsFragment"
-        android:label="MapsResultsFragment"
         tools:layout="@layout/fragment_maps_results">
-        <argument
-            android:name="account"
-            app:argType="com.example.photosearch.data.Account"/>
         <argument
             android:name="coordinates"
             app:argType="com.google.android.gms.maps.model.LatLng"/>

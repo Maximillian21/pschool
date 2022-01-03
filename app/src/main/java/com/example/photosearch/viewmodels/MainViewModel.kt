@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.photosearch.BaseApp
 import com.example.photosearch.repository.Repository
 import com.example.photosearch.data.ApiResponse
 import com.example.photosearch.data.SearchHistory
@@ -109,10 +110,10 @@ class MainViewModel @Inject constructor(
         editor.apply()
     }
 
-    fun addQuery(text: String, accountId: Int) {
+    fun addQuery(text: String) {
         viewModelScope.launch {
             val field = SearchHistory(text)
-            field.accountId = accountId
+            field.accountId = BaseApp.globalAccountId
             repository.addQuery(field)
         }
     }

@@ -35,8 +35,6 @@ class MapsFragment : Fragment() {
 
     private var marker: Marker? = null
 
-    private val args: MapsFragmentArgs by navArgs()
-
     lateinit var map: GoogleMap
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -137,7 +135,6 @@ class MapsFragment : Fragment() {
 
         binding.btnMapConfirm.setOnClickListener {
             findNavController().navigate(MapsResultsFragmentDirections.showGeoResults(
-                args.account,
                 marker?.position!!)
             )
         }

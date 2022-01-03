@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.photosearch.BaseApp
 import com.example.photosearch.data.Account
 import com.example.photosearch.databinding.FragmentLoginBinding
 import com.example.photosearch.viewmodels.LoginViewModel
@@ -42,14 +43,16 @@ class LoginFragment: Fragment() {
                     if(isExist) {
                         val existingAccount = viewModel.setAccountId(binding.etLogin.text.toString())
                         existingAccount.observe(viewLifecycleOwner) {
-                            findNavController().navigate(LoginFragmentDirections.enterAccount(it))
+                            BaseApp.globalAccountId = it.id
+                            findNavController().navigate(LoginFragmentDirections.enterAccount())
                         }
                     }
                     else {
                         GlobalScope.launch(Dispatchers.Main) {
                             viewModel.addAccount(Account(binding.etLogin.text.toString()))
                             viewModel.account.observe(viewLifecycleOwner) {
-                                findNavController().navigate(LoginFragmentDirections.enterAccount(it))
+                                BaseApp.globalAccountId = it.id
+                                findNavController().navigate(LoginFragmentDirections.enterAccount())
                             }
                         }
                     }
